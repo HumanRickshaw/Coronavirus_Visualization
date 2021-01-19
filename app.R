@@ -736,10 +736,6 @@ counties_corona <- counties_corona %>%
   gather(type, people, c(Cases, Deaths))
 
 
-testx <- counties_corona %>%
-  filter(date > "2020-05-03",
-         date < "2020-05-06")
-print(testx)
 
 #For US Comparisons Tab.
 us_data_table <- counties_corona[!is.na(counties_corona$people),] %>% select(1,5,6)
@@ -753,7 +749,6 @@ us_data_table <- us_data_table %>%
          mr = Deaths * 100000 / Population,
          crid = Deaths / Cases)
 us_data_table <- us_data_table[,c(4,5,1,2,3,6,7,8)]
-#print(us_data_table)
 
 
 
@@ -769,6 +764,7 @@ counties_corona <- counties_corona %>%
 #New York City.
 nyc_corona <- counties_corona %>%
   filter(county_name == "New York City")
+
 
 
 #County Outline mapping Data.
