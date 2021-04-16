@@ -267,8 +267,8 @@ x_date <- function(gg_object, date_min, date_max, linetype) {
   }
     gg_object + scale_x_date(name = "Date",
                              limits = c(date_min, date_max),
-                             date_breaks = "14 days",
-                             date_labels = "%B %d",
+                             date_breaks = "1 month",
+                             date_labels = "%B '%y",
                              expand = c(0, 0))
 }
 
@@ -1061,10 +1061,12 @@ ui <- fluidPage(
                           textOutput("tab7_exceptions")),
                  
                  navbarMenu("More",
-                            tabPanel("General Information",
+                            tabPanel("About",
                                      strong(span(textOutput("tab9_title"), style = "text-decoration: underline")),
                                      br(),
-                                     uiOutput("tab9_info")),
+                                     uiOutput("tab9_info"),
+                                     br(),
+                                     uiOutput("tab9_git")),
                             "------",
                             tabPanel("Sources",
                                      strong(span(textOutput("tab10_title"), style = "text-decoration: underline")),
@@ -1077,7 +1079,9 @@ ui <- fluidPage(
                                      br(),
                                      uiOutput("tab10_links4"),
                                      br(),
-                                     uiOutput("tab10_links5")),
+                                     uiOutput("tab10_links5"),
+                                     br(),
+                                     uiOutput("tab10_links6")),
                             "------",
                             tabPanel("Related Links",
                                      strong(span(textOutput("tab11_links_title1"), style = "text-decoration: underline")),
@@ -1098,15 +1102,7 @@ ui <- fluidPage(
                                      br(),
                                      uiOutput("tab11_link7"),
                                      br(),
-                                     uiOutput("tab11_link8")),
-                            "------",
-                            tabPanel("About",
-                                     uiOutput("tab12_source"),
-                                     br(),
-                                     br(),
-                                     textOutput("tab12_email1"),
-                                     br(),
-                                     textOutput("tab12_email2")))))))
+                                     uiOutput("tab11_link8")))))))
 
 
 
@@ -1994,7 +1990,45 @@ server <- function(input, output, session) {
   
     output$tab7_exceptions <- renderText(county_exceptions(input$state_i, input$county_i))
     
+    
 
+    ##############ABOUT############## 
+    output$tab9_info <- renderText(
+      "I was in India, Myanmar, and Thailand from December 2019 - March 2020.  I was on Borneo in mid March, about
+      to start working with orangutans for two weeks, but had to cut short as the Malaysian government was shutting
+      things down.  I had been traveling for 6.5 months, and was a little disappointed, but I had plenty saved to
+      purchase a last-minute flight and return to my hometown in North Carolina.  I have seen plenty of folks much
+      worse off than me, both at touristic hotspots throughout SE Asia, as well as domestically in the States.
+      <br>
+      <br>
+      I had been learning Python and R, and the Coronavirus data was trending.  I wanted to create something different
+      from other visualizations and dashboards.  Also I wanted to up my interactivity and dashboard abilities for a 
+      user driven experience.  I started this ShinyApp in April 2020.  I kept adding features and tabs as I had ideas
+      and new skills to implement those ideas.
+      <br>
+      <br>
+      UrbanInstitute's urbnmapr was invaluable in creating the Choropleth/Bubble Plot.  Thank you!  The rest of the app
+      is my own design.
+      <br>
+      <br>
+      I really appreciate all the support and visits.  Feel free to email me!
+      <br>
+      <br>
+      Rohan
+      <br>
+      rohan.lewis@gmail.com
+      "
+    )
+    
+    output$tab9_git <- renderUI({
+      
+      create_html("GitHub",
+                  "Repository",
+                  "https://github.com/HumanRickshaw/Coronavirus_Visualization",
+                  ".")
+    })
+    
+    
         
     ##############MORE MENU############## 
     output$tab10_title <- renderText("Sources")
@@ -2017,13 +2051,21 @@ server <- function(input, output, session) {
     
     output$tab10_links3 <- renderUI({
       
-      create_html("USA, American Samoa, Guam, Northern Mariana Islands, and Virgin Islands Population : ",
-                 "Worldometer - real time world statistics",
-                 "https://www.worldometers.info/world-population/population-by-country/",
-                 ".")
+      create_html("Latitude and Longitude info for US Counties, etc. : ",
+                  "CSSEGISandData",
+                  "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv",
+                  ".")
     })
     
     output$tab10_links4 <- renderUI({
+      
+      create_html("USA, American Samoa, Guam, Northern Mariana Islands, and Virgin Islands Population : ",
+                  "Worldometer - real time world statistics",
+                  "https://www.worldometers.info/world-population/population-by-country/",
+                  ".")
+    })
+    
+    output$tab10_links5 <- renderUI({
       
       create_html("US Counties Population : ",
                  "County Population Totals: 2010-2019",
@@ -2031,11 +2073,11 @@ server <- function(input, output, session) {
                  ".")
     })
         
-    output$tab10_links5 <- renderUI({
+    output$tab10_links6 <- renderUI({
       
-      create_html("State Testing Data : ",
-                 "The COVID Tracking Project",
-                 "https://covidtracking.com/api/",
+      create_html("urbnmapr : ",
+                 "Urban Institute",
+                 "https://github.com/UrbanInstitute/urbnmapr",
                  ".")
     })
     
@@ -2106,27 +2148,9 @@ server <- function(input, output, session) {
                  "https://rt.live/",
                  ".")
     })
-  
-    output$tab12_source <- renderUI({
-      
-      create_html("GitHub",
-                  "Repository",
-                  "https://github.com/HumanRickshaw/Coronavirus_Visualization",
-                  ".")
-    })
-    
-    output$tab12_email1 <- renderText({
-      
-      "Questions?  Comments?"
-    })
-  
-    output$tab12_email2 <- renderText({
-      
-      "Email : rohan.lewis@gmail.com"
-    })
 }
 
 
-
+    
 # Run the application 
 shinyApp(ui = ui, server = server)
