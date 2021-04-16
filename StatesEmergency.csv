@@ -1,0 +1,165 @@
+state_name,county_name,city_name,level,date,link,type,type_name
+Alabama,,,state,2020-03-13,https://governor.alabama.gov/newsroom/2020/03/state-of-emergency-coronavirus-covid-19/,1,State of Emergency
+Alabama,,,state,2020-04-04,https://governor.alabama.gov/assets/2020/04/2020_04_03_20-Revised-SOE.pdf,2,Stay at Home
+Alabama,,Birmingham,city,2020-03-24,https://www.birminghamal.gov/wp-content/uploads/2020/03/2020.3.24.City-of-Birmingham.Shelter-In-Place-Ordinance.pdf,2,Shelter in Place
+Alaska,,,state,2020-03-11,https://gov.alaska.gov/wp-content/uploads/sites/2/COVID-19-Disaster-Packet.pdf,1,Public Health Disaster Emergency
+Alaska,,,state,2020-03-28,http://dhss.alaska.gov/News/Documents/press/2020/FAQs_03272020-SOA-COVID-19-Health-Mandate-011-012.pdf,2,Health Mandate 011: Statewide Social-Distancing & Health Mandate 012: Intrastate Travel
+Alaska,,,state,2020-04-24,https://gov.alaska.gov/wp-content/uploads/sites/2/COVID-19-Mandate-016-1.pdf,5,Health Mandate 016: Reopen Alaska Responsibly
+Alaska,,Anchorage,city,2020-03-22,https://www.muni.org/departments/mayor/pressreleases/documents/eo-03.pdf,2,"""Hunker Down"""
+American Samoa,,,state,2020-01-29,https://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/594/2020/01/29143705/DECLARATION-OF-CONTINUED-AND-EXPANDED-PUBLIC-HEALTH-EMERGENCY.pdf,1,Public Health Emergency
+American Samoa,,,state,,,2,
+American Samoa,,,state,,,3,
+Arizona,,,state,2020-03-11,https://azgovernor.gov/sites/default/files/declaraton_0.pdf,1,State of Emergency
+Arizona,,,state,2020-03-31,https://azgovernor.gov/sites/default/files/eo_2020-18_stay_home_stay_healthy_stay_connected_1.0.pdf,2,"Stay Home, Stay Healthy, Stay Connected"
+Arkansas,,,state,2020-03-11,https://governor.arkansas.gov/images/uploads/executiveOrders/EO_20-03._.pdf,1,State of Emergency
+Arkansas,,,state,,,2,
+Arkansas,,,state,,,3,
+California,,,state,2020-03-04,https://www.gov.ca.gov/2020/03/04/governor-newsom-declares-state-of-emergency-to-help-state-prepare-for-broader-spread-of-covid-19/,1,State of Emergency
+California,,,state,2020-03-19,https://www.gov.ca.gov/wp-content/uploads/2020/03/EO-N-33-20-COVID-19-HEALTH-ORDER-03.19.2020-002.pdf,2,Executive Order N-33-20
+California,Alameda,,county,2020-03-17,https://www.acgov.org/documents/Final-Order-to-Shelter-In-Place.pdf,2,Shelter in Place
+California,Contra Costa,,county,2020-03-17,https://cchealth.org/coronavirus/pdf/HO-COVID19-SIP-0316-2020.pdf,2,Shelter in Place
+California,Marin,,county,2020-03-17,https://www.marincounty.org/main/county-press-releases/press-releases/2020/cao-covid-serviceadjustments-031720,2,Shelter in Place
+California,San Francisco,,county,2020-03-17,https://www.sfdph.org/dph/alerts/files/HealthOrderC19-07-%20Shelter-in-Place.pdf,2,Shelter in Place
+California,San Mateo,,county,2020-03-17,https://www.smcgov.org/sites/smcgov.org/files/HO%20Order%20Shelter%20in%20Place%2020200316_0.pdf,2,Shelter in Place
+California,Santa Clara,,county,2020-03-17,https://www.sccgov.org/sites/phd/DiseaseInformation/novel-coronavirus/Pages/order-health-officer-031620.aspx,2,Shelter in Place
+California,,Berkeley,city,2020-03-17,https://www.cityofberkeley.info/uploadedFiles/Health_Human_Services/Level_3_-_Public_Health/2020-03-16-shelter-at-home-order-faq.pdf,2,Shelter in Place
+California,Monterey,,county,2020-03-18,https://www.co.monterey.ca.us/home/showdocument?id=87943,2,Shelter in Place
+California,San Benito,,county,2020-03-18,https://hhsa.cosb.us/wp-content/uploads/2020/03/Order-of-the-Health-Officer-031720.pdf,2,Shelter in Place
+California,Sonoma,,county,2020-03-18,http://sonomacounty.ca.gov/CAO/Press-Releases/Health-Officer-Orders-County-Residents-Shelter-in-Place/,2,Shelter in Place
+California,Sacramento,,county,2020-03-19,https://www.saccounty.net/COVID-19/Documents/20200319_HO_Signed_Stay_at_Home_Order.pdf,2,Stay at Home
+California,Yolo,,county,2020-03-19,https://www.yolocounty.org/Home/ShowDocument?id=62366,2,Shelter in Place
+California,,Fresno,city,2020-03-19,https://www.fresno.gov/news/city-announces-important-update-on-coronavirus-state-of-emergency/,2,Shelter in Place
+California,Napa,,county,2020-03-20,https://www.countyofnapa.org/DocumentCenter/View/16687/3-18-2020-Shelter-at-Home-Order,2,Shelter in Place
+California,San Luis Obispo,,county,2020-03-19,https://www.slocounty.ca.gov/Departments/Health-Agency/Public-Health/Department-News/COVID-19-Updates/Shelter-At-Home-Guidelines.aspx,2,Shelter in Place
+California,Mendocino,,county,2020-03-18,https://www.mendocinocounty.org/home/showdocument?id=33103,2,Shelter in Place
+Colorado,,,state,2020-03-10,https://www.colorado.gov/governor/sites/default/files/inline-files/D%202020%20003%20Declaring%20a%20Disaster%20Emergency.pdf,1,Disaster Emergency
+Colorado,,,state,2020-03-26,https://www.colorado.gov/governor/sites/default/files/inline-files/D%202020%20017%20Ordering%20Coloradans%20to%20Stay%20at%20Home_0.pdf,2,Stay at Home
+Colorado,,,state,2020-04-26,https://www.colorado.gov/governor/sites/default/files/inline-files/D%202020%20024%20Amending%20and%20Extending%20Executive%20Order%20D%202020%20017%20Stay%20at%20Home%20Order_0.pdf,4,Stay at Home
+Colorado,San Miguel,,county,2020-03-19,https://www.sanmiguelcountyco.gov/CivicAlerts.aspx?AID=472,2,Shelter In-Place
+Connecticut,,,state,2020-03-10,https://portal.ct.gov/-/media/Office-of-the-Governor/News/20200310-declaration-of-civil-preparedness-and-public-health-emergency.pdf?la=en,1,Public Health and Civil Preparedness Emergencies 
+Connecticut,,,state,2020-03-23,https://portal.ct.gov/-/media/Office-of-the-Governor/Executive-Orders/Lamont-Executive-Orders/Executive-Order-No-7H.pdf,2,"Stay Safe, Stay Home"
+Delaware,,,state,2020-03-12,https://governor.delaware.gov/wp-content/uploads/sites/24/2020/03/State-of-Emergency_03122020.pdf,1,State of Emergency
+Delaware,,,state,2020-03-24,https://governor.delaware.gov/wp-content/uploads/sites/24/2020/03/Fourth-Modification-to-State-of-Emergency-03222020.pdf,2,Shelter in Place
+District of Columbia,,,state,2020-03-11,https://mayor.dc.gov/sites/default/files/dc/sites/mayormb/release_content/attachments/MO.DeclarationofPublicHealthEmergency03.11.20.pdf,1,Public Health Emergency
+District of Columbia,,,state,2020-04-01,https://mayor.dc.gov/sites/default/files/dc/sites/coronavirus/release_content/attachments/Mayor%27s%20Order%202020-054%20Stay%20at%20Home.pdf,2,Stay at Home
+Florida,,,state,2020-03-01,https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-51.pdf,1,Public Health Emergency
+Florida,,,state,2020-04-03,https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-91.pdf,2,Safer at Home
+Georgia,,,state,2020-03-14,https://gov.georgia.gov/document/2020-executive-order/03142001/download,1,Public Health State of Emergency
+Georgia,,,state,2020-04-03,https://gov.georgia.gov/document/2020-executive-order/04022001/download,2,Shelter in Place
+Georgia,,,state,2020-04-24,https://gov.georgia.gov/document/2020-executive-order/04232002/download,5,Reviving a Health Georgia
+Guam,,,state,2020-03-14,https://www.fmcsa.dot.gov/emergency/guam-state-emergency-declaration-order,1,State of Emergency
+Guam,,,state,,,2,
+Guam,,,state,,,3,
+Hawaii,,,state,2020-03-04,https://governor.hawaii.gov/wp-content/uploads/2020/03/2003020-GOV-Emergency-Proclamation_COVID-19.pdf,1,Emergency Period Proclamation
+Hawaii,,,state,2020-03-25,https://governor.hawaii.gov/wp-content/uploads/2020/03/2003162-ATG_Third-Supplementary-Proclamation-for-COVID-19-signed.pdf,2,Stay at Home
+Hawaii,Honolulu,,county,2020-03-23,https://health.hawaii.gov/news/corona-virus/covid-19-daily-update-march-23-2020/,2,"Stay-at-Home, Work-at-Home"
+Hawaii,Maui,,county,2020-03-25,https://health.hawaii.gov/news/corona-virus/covid-19-daily-update-march-23-2020/,2,"Stay-at-Home, Work-at-Home"
+Idaho,,,state,2020-03-13,https://gov.idaho.gov/pressrelease/governor-signs-proactive-emergency-declaration-to-further-prevent-coronavirus-spread-in-idaho/,1,Emergency Delcaration
+Idaho,,,state,2020-03-25,https://gov.idaho.gov/pressrelease/governor-little-issues-statewide-stay-home-order-signs-extreme-emergency-declaration/,2,Stay-Home
+Idaho,Blaine,,county,2020-03-20,https://www.co.blaine.id.us/DocumentCenter/View/11087/Blaine-County-Self-Isolation-Order-3-20-2020-FINAL?bidId=,2,Self-Isolation
+Illinois,,,state,2020-03-09,https://www2.illinois.gov/Pages/Executive-Orders/ExecutiveOrder2020-10.aspx,1,Disaster Proclamation
+Illinois,,,state,2020-03-21,https://www2.illinois.gov/Pages/Executive-Orders/ExecutiveOrder2020-10.aspx,2,Stay at Home
+Indiana,,,state,2020-03-06,https://www.in.gov/gov/files/20-02ExecutiveOrder(DeclarationofPublicHealthEmergencyforCOVID-19)FINAL.pdf,1,Public Health Emergency
+Indiana,,,state,2020-03-24,https://www.in.gov/gov/files/Executive_Order_20-08_Stay_at_Home.pdf,2,Directive for Hoosiers to Stay at Home
+Iowa,,,state,2020-03-09,https://governor.iowa.gov/sites/default/files/documents/202003100818.pdf,1,Disaster Emergency
+Iowa,,,state,2020-04-02,https://governor.iowa.gov/sites/default/files/documents/Public%20Health%20Disaster%20Proclamation%20-%202020.04.02.pdf,2.5,Public Health Disaster Emergency
+Kansas,,,state,2020-03-12,https://governor.kansas.gov/wp-content/uploads/2020/03/2020-03-12-Proclamation.pdf,1,State of Disaster Emergency
+Kansas,,,state,2020-03-30,https://governor.kansas.gov/wp-content/uploads/2020/03/EO20-16.pdf,2,Stay Home
+Kentucky,,,state,2020-03-06,https://governor.ky.gov/attachments/20200306_Executive-Order_2020-215.pdf,1,State of Emergency
+Kentucky,,,state,2020-03-26,https://governor.ky.gov/attachments/20200325_Executive-Order_2020-257_Healthy-at-Home.pdf,2.5,Healthy at Home
+Louisiana,,,state,2020-03-11,https://gov.louisiana.gov/assets/Proclamations/2020/modified/25-JBE-2020-Public-Health-Emergency-COVID-19.pdf,1,Public Health Emergency
+Louisiana,,,state,2020-03-23,https://gov.louisiana.gov/assets/Proclamations/2020/33-JBE-2020-Public-Health-Emergency.pdf,2,Stay at Home
+Maine,,,state,2020-03-15,https://www.maine.gov/governor/mills/sites/maine.gov.governor.mills/files/inline-files/Proclamation%20of%20State%20of%20Civil%20Emergency%20To%20Further%20Protect%20Public%20Health.pdf,1,State of Civil Emergency
+Maine,,,state,2020-04-02,https://www.maine.gov/governor/mills/sites/maine.gov.governor.mills/files/inline-files/CORRECTED_An%20Order%20Regarding%20Further%20Restrictions%20on%20Public%20Contact%20and%20Movement%2C%20Schools%2C%20Vehicle%20Travel%20and%20Retail%20Business%20Operations.pdf,2,Stay at Home
+Maryland,,,state,2020-03-05,https://governor.maryland.gov/wp-content/uploads/2020/03/Proclamation-COVID-19.pdf,1,"State of Emergency, Existence of Catastrophic Health Emergency"
+Maryland,,,state,2020-03-30,https://governor.maryland.gov/wp-content/uploads/2020/03/Gatherings-FOURTH-AMENDED-3.30.20.pdf,2,Stay-at-Home
+Massachusetts,,,state,2020-03-10,https://www.mass.gov/executive-orders/no-591-declaration-of-a-state-of-emergency-to-respond-to-covid-19,1,State of Emergency
+Massachusetts,,,state,2020-03-24,https://www.mass.gov/doc/march-23-2020-essential-services-and-revised-gatherings-order/download,2.5,Stay-at-Home
+Michigan,,,state,2020-03-11,"https://www.michigan.gov/whitmer/0,9309,7-387-90499_90705-521576--,00.html",1,State of Emergency
+Michigan,,,state,2020-03-24,"https://www.michigan.gov/whitmer/0,9309,7-387-90499_90705-522626--,00.html",2,"Stay Home, Stay Safe"
+Minnesota,,,state,2020-03-13,https://www.leg.state.mn.us/archive/execorders/20-01.pdf,1, Peacetime Emergency
+Minnesota,,,state,2020-03-27,https://www.leg.state.mn.us/archive/execorders/20-20.pdf,2,Directing Minnesotans to Stay at Home
+Mississippi,,,state,2020-03-14,https://www.sos.ms.gov/Education-Publications/ExecutiveOrders/1458.pdf,1,State of Emergency
+Mississippi,,,state,2020-04-03,https://www.sos.ms.gov/Education-Publications/ExecutiveOrders/1466.pdf,2,Shelter in Place
+Missouri,,,state,2020-03-13,https://www.sos.mo.gov/library/reference/orders/2020/eo2,1,State of Emergency
+Missouri,,,state,2020-04-06,https://governor.mo.gov/press-releases/archive/governor-parson-issues-statewide-stay-home-missouri-order-control-contain,2,Stay Home Missouri
+Montana,,,state,2020-03-12,https://governor.mt.gov/Portals/16/docs/2020EOs/EO-02-2020_COVID-19%20Emergency%20Declaration.pdf,1,State of Emergency
+Montana,,,state,2020-03-28,https://covid19.mt.gov/Portals/223/Documents/Stay%20at%20Home%20Directive.pdf?ver=2020-03-26-173332-177,2,Stay at Home
+Montana,,,state,,https://covid19.mt.gov/Portals/223/Documents/Reopening%20Montana%20Phased%20Approach.pdf?ver=2020-04-22-115707-770,5,Reopening the Big Sky
+Nebraska,,,state,2020-03-13,https://www.dropbox.com/s/4x63lqrl2i36rgw/2020%20Executive%20Order%20No.%2020-01%20.pdf?dl=0,1,State of Emergency
+Nebraska,,,state,2020-04-30,https://www.dropbox.com/s/mkgl9ho03rjhnsc/2020%2021%20Days%20to%20Stay%20Home%20and%20Stay%20Health%20.pdf?dl=0,2.5,21 Days to Stay Home and Stay Healthy
+Nevada,,,state,2020-03-12,http://gov.nv.gov/News/Emergency_Orders/2020/2020-03-12_-_COVID-19_Declaration_of_Emergency/,1,Declaration of Emergency
+Nevada,,,state,2020-04-01,http://gov.nv.gov/News/Emergency_Orders/2020/2020-03-31_-_COVID-19_Declaration_of_Emergency_Directive_010_-_Stay_at_Home_Order/,2,Stay At Home
+New Hampshire,,,state,2020-03-13,https://www.governor.nh.gov/news-media/orders-2020/documents/2020-04.pdf,1,State of Emergency
+New Hampshire,,,state,2020-03-27,https://www.governor.nh.gov/news-media/emergency-orders/documents/emergency-order-17-1.pdf,2,Stay At Home
+New Jersey,,,state,2020-03-09,https://nj.gov/infobank/eo/056murphy/pdf/EO-103.pdf,1,Public Health Emergency/State of Emergency
+New Jersey,,,state,2020-03-21,https://nj.gov/infobank/eo/056murphy/pdf/EO-107.pdf,2,EXECUTIVE ORDER NO. 107
+New Mexico,,,state,2020-03-11,https://www.governor.state.nm.us/wp-content/uploads/2020/03/Executive-Order-2020-004.pdf,1,Public Health Emergency/State of Emergency
+New Mexico,,,state,2020-03-23,https://www.governor.state.nm.us/wp-content/uploads/2020/03/COVID-19-DOH-Order-fv.pdf,2,Public Health Emergency
+New York,,,state,2020-03-07,https://www.governor.ny.gov/sites/governor.ny.gov/files/atoms/files/EO_202.pdf,1,State Disaster Emergency
+New York,,,state,2020-03-22,https://www.governor.ny.gov/sites/governor.ny.gov/files/atoms/files/EO_202.8.pdf,2,New York State on PAUSE
+North Carolina,,,state,2020-03-10,https://files.nc.gov/governor/documents/files/EO116-SOE-COVID-19.pdf,1,State of Emergency
+North Carolina,,,state,2020-03-30,https://files.nc.gov/governor/documents/files/EO121-Stay-at-Home-Order-3.pdf,2,Stay at Home
+North Dakota,,,state,2020-03-13,https://www.governor.nd.gov/sites/www/files/documents/EO%202020-03.pdf,1,State of Emergency
+North Dakota,,,state,,,2,
+North Dakota,,,state,,,3,
+Northern Mariana Islands,,,state,2020-01-29,https://www.fmcsa.dot.gov/emergency/commonwealth-northern-maraiana-islands-emergency-declaration-order-2020-04,1,State of Significant Emergency
+Northern Mariana Islands,,,state,,,2,
+Northern Mariana Islands,,,state,,,3,
+Ohio,,,state,2020-03-09,https://governor.ohio.gov/wps/portal/gov/governor/media/executive-orders/executive-order-2020-01-d,1,State of Emergency
+Ohio,,,state,2020-03-23,https://coronavirus.ohio.gov/static/DirectorsOrderStayAtHome.pdf,2,Stay at Home
+Oklahoma,,,state,2020-03-15,https://www.sos.ok.gov/documents/executive/1913.pdf,1,Emergency
+Oklahoma,,,state,2020-03-24,https://www.governor.ok.gov/articles/press_releases/governor-stitt-announces-latest-covid-19-actions,2.5,Safer at Home
+Oklahoma,,Claremore,city,2020-04-06,https://www.claremorecity.com/DocumentCenter/View/4999/Emergency-Management-Order-3,2,Stay at Home
+Oklahoma,,Edmond,city,2020-03-30,http://edmondok.com/1568/COVID-19-Coronavirus-Information,2,Shelter in Place
+Oklahoma,,Moore,city,2020-04-04,https://www.cityofmoore.com/uploads/Parks/EMERGENCY-PROCLAMATION-00382020.pdf,2,Shelter in Place
+Oklahoma,,Norman,city,2020-03-25,http://www.normanok.gov/ln/stay-home-order-issued-mayor-clark-flatten-curve,2,Stay at Home
+Oklahoma,,Oklahoma City,city,2020-03-28,https://www.okc.gov/Home/Components/News/News/3321/18,2,Shelter in Place
+Oklahoma,,Sallisaw,city,2020-04-04,http://www.sallisawok.org/DocumentCenter/View/1505/COVID19PROCLAMATIONSallisaw,2,Shelter in Place
+Oklahoma,,Stillwater,city,2020-03-30,https://bloximages.chicago2.vip.townnews.com/stwnewspress.com/content/tncms/assets/v3/editorial/9/fd/9fd948f6-72b6-11ea-ad8d-6b4683f0a441/5e823e65d9b25.pdf.pdf,2,Shelter in Place
+Oklahoma,,Tulsa,city,2020-03-28,http://www.cityoftulsa.org/media/12617/2020-04.pdf,2,Shelter in Place
+Oregon,,,state,2020-03-08,https://www.oregon.gov/gov/admin/Pages/eo_20-03.aspx,1,Public Health Emergency/State of Emergency
+Oregon,,,state,2020-03-23,https://www.oregon.gov/gov/admin/Pages/eo_20-12.aspx,2,"Stay Home, Save Lives"
+Pennsylvania,,,state,2020-03-06,https://www.governor.pa.gov/wp-content/uploads/2020/03/20200306-COVID19-Digital-Proclamation.pdf,1,Disaster Emergency
+Pennsylvania,,,state,2020-04-01,https://www.governor.pa.gov/wp-content/uploads/2020/04/20200401-GOV-Statewide-Stay-at-Home-Order.pdf,2,Stay at Home
+Puerto Rico,,,state,2020-03-12,https://basecero.ogp.pr.gov/apex/apex_util.get_blob?s=1774756926554&a=161&c=112063554695324788&p=15&k1=4717&k2=&ck=kHNoHG_O7nNBk-0XtbrJdU3DsR6FLvWkJhgPxkK4HxQuu-kRDiV-1-urpXUS73jlWhTZ6YnDNWaXcy_uFXmxQA&rt=IR,1,State of Emergency
+Puerto Rico,,,state,2020-03-15,https://basecero.ogp.pr.gov/apex/apex_util.get_blob?s=1774756926554&a=161&c=112063554695324788&p=15&k1=4724&k2=&ck=tT1e5PDHt7RkpMSPjeAr-m_gHkZ_RAyG4zKBjjJ4bGHlOOxgESzVnETSvOg1_aZt5YMTUSdyC9N3I-ZaJusthg&rt=IR,2,Curfew
+Rhode Island,,,state,2020-03-09,https://governor.ri.gov/documents/orders/Executive-Order-20-02.pdf,1,Disaster Emergency
+Rhode Island,,,state,2020-03-28,https://governor.ri.gov/documents/orders/Executive-Order-20-13.pdf,2,Staying at and Working from Home
+South Carolina,,,state,2020-03-13,https://governor.sc.gov/sites/default/files/Documents/Executive-Orders/2020-03-13%20FILED%20Executive%20Order%20No.%202020-08%20-%20State%20of%20Emergency%20Due%20to%20Coronavirus%20(COVID-19).pdf,1,State of Emergency
+South Carolina,,,state,2020-04-06,https://governor.sc.gov/sites/default/files/Documents/Executive-Orders/2020-04-06%20eFILED%20Executive%20Order%20No.%202020-21%20-%20Stay%20at%20Home%20or%20Work%20Order.pdf,2,Executive Order No. 2020-21
+South Dakota,,,state,2020-03-13,https://www.fmcsa.dot.gov/sites/fmcsa.dot.gov/files/2020-03/South%20Dakota%20General%20-%20Executive%20Orders.pdf,1,State of Emergency
+South Dakota,,,state,,,2,
+South Dakota,,,state,,,3,
+Tennessee,,,state,2020-03-12,https://publications.tnsosfiles.com/pub/execorders/exec-orders-lee14.pdf,1,State of Emergency
+Tennessee,,,state,2020-03-31,https://publications.tnsosfiles.com/pub/execorders/exec-orders-lee22.pdf,2,Safer at Home
+Texas,,,state,2020-03-13,https://gov.texas.gov/uploads/files/press/DISASTER_covid19_disaster_proclamation_IMAGE_03-13-2020.pdf,1,State of Disaster
+Texas,,,state,2020-04-02,https://lrl.texas.gov/scanned/govdocs/Greg%20Abbott/2020/GA-14.pdf,2,Stay at Home
+Utah,,,state,2020-03-06,https://governor.utah.gov/2020/03/06/gov-herbert-declares-state-of-emergency/,1,State of Emergency
+Utah,,,state,2020-03-30,https://drive.google.com/file/d/1Qey2xIxAEqIxiiAHJyHSxBosmjetkbN7/view,2.5,"Stay Safe, Stay Home"
+Utah,Davis,,county,2020-04-01,http://www.co.davis.ut.us/docs/librariesprovider5/covid-19/public-health-order-4-1-20/public-health-order-april-1-2020.pdf?,2,"Stay Safe, Stay Home"
+Utah,,Salt Lake City,city,2020-03-27,https://www.kuer.org/post/salt-lake-city-mayor-issues-stay-home-order-utah-governor-issues-directive#stream/0,2,Stay at Home
+Utah,Wasatach ,,county,2020-04-01,http://coronavirus.wasatch.utah.gov/Portals/9/Signed%20copy%20of%20stay%20at%20home%20order%203_30_2020.pdf,2,Stay at Home
+Utah,Salt Lake,,county,2020-03-30,https://www.abc4.com/wp-content/uploads/sites/4/2020/03/March-29-Public-Health-Order.pdf,2,"Salt Lake County: Stay Safe, Stay Home"
+Utah,Summit,,county,2020-03-27,https://www.summitcounty.org/DocumentCenter/View/10751/Joint-Public-Health-Order-2020-03-FINAL,2,Stay-at-Home
+Vermont,,,state,2020-03-13,https://governor.vermont.gov/sites/scott/files/documents/EO%2001-20%20Declaration%20of%20State%20of%20Emergency%20in%20Response%20to%20COVID-19%20and%20National%20Guard%20Call-Out.pdf,1,State of Emergency
+Vermont,,,state,2020-03-25,https://governor.vermont.gov/sites/scott/files/documents/ADDENDUM%206%20TO%20EXECUTIVE%20ORDER%2001-20.pdf,2,Stay Home/Stay Safe
+Virgin Islands,,,state,2020-03-13,https://www.vi.gov/wp-content/uploads/2020/03/2020-03.23-12-54pm-Order-Suppl-Exec-Order-re-Restrictions-to-Movement-Gatherings-Operations-of-Business-Govt.-and-Schools-fully-signed.pdf,1,State of Emergency
+Virgin Islands,,,state,2020-03-25,https://www.vi.gov/wp-content/uploads/2020/03/2020-03.23-12-54pm-Order-Suppl-Exec-Order-re-Restrictions-to-Movement-Gatherings-Operations-of-Business-Govt.-and-Schools-fully-signed.pdf,2,Stay-At-Home
+Virginia,,,state,2020-03-12,https://www.governor.virginia.gov/media/governorvirginiagov/governor-of-virginia/pdf/eo/EO-51-Declaration-of-a-State-of-Emergency-Due-to-Novel-Coronavirus-(COVID-19).pdf,1,State of Emergency
+Virginia,,,state,2020-03-30,https://www.governor.virginia.gov/media/governorvirginiagov/executive-actions/EO-55-Temporary-Stay-at-Home-Order-Due-to-Novel-Coronavirus-(COVID-19).pdf,2,Stay at Home
+Washington,,,state,2020-02-29,https://www.governor.wa.gov/sites/default/files/20-05%20Coronavirus%20%28final%29.pdf,1,State of Emergency
+Washington,,,state,2020-03-25,https://www.governor.wa.gov/sites/default/files/proclamations/20-25%20Coronovirus%20Stay%20Safe-Stay%20Healthy%20%28tmp%29%20%28002%29.pdf,2,Stay Home-Stay Healthy
+Washington,,Everett,city,2020-03-23,https://everettwa.gov/DocumentCenter/View/24195/2020-03-20-Stay-home-protect-public-health-Directive_FINAL,2,"Stay Home, Protect Public Health"
+Washington,,Edmonds,city,2020-03-22,https://edmondschamber.com/edmonds-mayor-issues-emergency-stay-at-home-order/,2,Stay-At-Home
+Washington,Yakima,,county,2020-03-22,https://www.scribd.com/document/452848470/Yakima-Health-District-Stay-at-home-order-COVID-19-32220,2,Stay at Home
+West Virginia,,,state,2020-03-04,https://governor.wv.gov/Documents/2020%20Proclamations/State-of-Emergency-March-16-2020.pdf,1,State of Emergency
+West Virginia,,,state,2020-03-24,https://apps.sos.wv.gov/adlaw/executivejournal/readpdf.aspx?DocID=89504,2,Stay at Home
+Wisconsin,,,state,2020-03-12,https://evers.wi.gov/Documents/EO/EO072-DeclaringHealthEmergencyCOVID-19.pdf,1,Public Health Emergency/State of Emergency
+Wisconsin,,,state,2020-03-25,https://evers.wi.gov/Documents/COVID19/EMO12-SaferAtHome.pdf,2,Safer at Home
+Wisconsin,,Milwaukee,city,2020-03-25,https://localtvwiti.files.wordpress.com/2020/03/cadb01-267644-v1-signed_stay_at_home_order_3_23_20.pdf,2,Stay-At-Home
+Wyoming,,,state,2020-03-13,https://drive.google.com/file/d/1FTEUxYXwwbIjcnwDl18w0pTLtM8ivTab/view,1,Public Health Emergency/State of Emergency
+Wyoming,,,state,,,2,
+Wyoming,,,state,,,3,
+Wyoming,,Jackson,city,2020-03-28,https://bloximages.newyork1.vip.townnews.com/jhnewsandguide.com/content/tncms/assets/v3/editorial/b/e5/be56d959-4082-5cf1-a423-42169d4de360/5e7fe88749917.pdf.pdf,2,Stay-At-Home
+Wyoming,Teton,,county,2020-03-31,https://www.tetoncountywy.gov/DocumentCenter/View/13650/Press-Release-Teton-District-Public-Health-Order-20-4,,Gatherings With Only Your Household

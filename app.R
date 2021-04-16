@@ -1,5 +1,6 @@
 ##############PACKAGES##############
 
+library(data.table)
 library(DT)
 library(ggplot2)
 library(ggthemes)
@@ -15,6 +16,49 @@ library(viridis)
 
 
 ##############FUNCTIONS##############
+
+#Rename Anchorage.
+#Split Bristol Bay plus Lake and Peninsula to Bristol Bay Borough/Lake and Peninsula Borough.
+#Split Yakutat plus Hoonah-Angoon to Yakutat City and Borough and Hoonah-Angoon Census Area.
+alaska_edit <- function(df){
+  
+  b1 <- "Bristol Bay Borough"
+  b2 <- "Lake and Peninsula Borough"
+  b3 <- "Yakutat City and Borough" 
+  b4 <- "Hoonah-Angoon Census Area"
+  b1b2 <- "Bristol Bay plus Lake and Peninsula"
+  b3b4 <- "Yakutat plus Hoonah-Angoon"
+  
+  #Anchorage
+  df[df$county == "Anchorage",]$county <- "Anchorage Municipality"
+  
+  #Bristol Bay plus Lake and Peninsula
+  temp = df[df$county == b1b2,]
+  temp$fips <- 02060
+  temp$county <- b1
+  temp$cases <- floor(temp$cases * 836 / (836+1592))
+  temp$deaths <- floor(temp$deaths * 836 / (836+1592))
+  df[df$county == b1b2,]$fips <- 02164
+  df[df$county == b1b2,]$county <- b2
+  df[df$county == b2, "cases"] <- ceiling(df[df$county == b2, "cases"] * 1592 / (836+1592))
+  df[df$county == b2, "deaths"] <- ceiling(df[df$county == b2, "deaths"] * 1592 / (836+1592))
+  df <- rbind(df, temp)
+  
+  #Yakutat plus Hoonah-Angoon
+  temp = df[df$county == b3b4,]
+  temp$fips <- 02282
+  temp$county <- b3
+  temp$cases <- floor(temp$cases * 579 / (579+2148))
+  temp$deaths <- floor(temp$deaths * 579 / (579+2148))
+  df[df$county == b3b4,]$fips <- 02105
+  df[df$county == b3b4,]$county <- b4
+  df[df$county == b4, "cases"] <- ceiling(df[df$county == b4, "cases"] * 2148 / (579+2148))
+  df[df$county == b4, "deaths"] <- ceiling(df[df$county == b4, "deaths"] * 2148 / (579+2148))
+  df <- rbind(df, temp)  
+
+  df
+}
+
 
 #Distribute Kansas City among Cass, Clay, Jackson, and Platte Counties.
 kc_edit <- function(df) {
@@ -35,30 +79,25 @@ kc_edit <- function(df) {
                           "cases" = 0,
                           "deaths" = 0)
 
-  df <- rbind(df, clay_df)
-  df <- rbind(df, platte_df)
+  df <- rbind(rbind(df, clay_df), platte_df)
   kc_df <- df[df$state == "Missouri" & df$county == "Kansas City",]
-  df <- df[!(df$state == "Missouri" & df$county == "Kansas City"),]
-  df <- df[order(df$date),]
-  
-  for (x in kc_df$date) {
-    df[df$state == "Missouri" & df$county %in% temp_counties & df$date == x,]$cases <-
-      df[df$state == "Missouri" & df$county %in% temp_counties & df$date == x,]$cases + as.integer(kc_df[kc_df$date == x,]$cases / 4)
+  kcc_df <- df[df$state == "Missouri" & df$county %in% temp_counties,]
+  df <- df[!(df$state == "Missouri" & df$county %in% c(temp_counties, "Kansas City")),]
 
-    df[df$state == "Missouri" & df$county %in% temp_counties & df$date == x,]$deaths <-
-      df[df$state == "Missouri" & df$county %in% temp_counties & df$date == x,]$deaths + as.integer(kc_df[kc_df$date == x,]$deaths / 4)
+  for (x in kc_df$date) {
+    kcc_df[ kcc_df$date == x,]$cases <-
+      kcc_df[kcc_df$date == x,]$cases + as.integer(kc_df[kc_df$date == x,]$cases / 4)
+
+    kcc_df[kcc_df$date == x,]$deaths <-
+      kcc_df[kcc_df$date == x,]$deaths + as.integer(kc_df[kc_df$date == x,]$deaths / 4)
   }
-  df
+  rbind(df, kcc_df)
 }
 
 
 
 #Distribute Joplin among Jasper and Newton Counties.
-joplin_edit <- function(df)
-  
-{
-  
-  temp_counties <- c("Cass", "Clay", "Jackson", "Platte")
+joplin_edit <- function(df){
   
   temp_counties <- c("Jasper", "Newton")
   
@@ -76,20 +115,19 @@ joplin_edit <- function(df)
                           "cases" = 0,
                           "deaths" = 0)
   
-  df <- rbind(df, newton_df)
-  df <- rbind(df, joplin_df)
+  df <- rbind(rbind(df, newton_df), joplin_df)
   joplin_df <- df[df$county == "Joplin", ]
-  df <- df[df$county != "Joplin", ]
-  df <- df[order(df$date), ]
-  
+  jn_df <- df[df$state == "Missouri" & df$county %in% temp_counties,]
+  df <- df[!(df$state == "Missouri" & df$county %in% c(temp_counties, "Joplin")),]
+
   for (d in joplin_df$date) {
-    df[df$county %in% temp_counties & df$date == d, ]$cases <-
-      df[df$county %in% temp_counties & df$date == d, ]$cases + as.integer(joplin_df[joplin_df$date == d,]$cases / 2)
+    jn_df[jn_df$date == d, ]$cases <-
+      jn_df[jn_df$date == d, ]$cases + as.integer(joplin_df[joplin_df$date == d,]$cases / 2)
     
-    df[df$county %in% temp_counties & df$date == d,]$deaths <-
-      df[df$county %in% temp_counties & df$date == d,]$deaths + as.integer(joplin_df[joplin_df$date == d,]$deaths / 2)
+    jn_df[jn_df$date == d, ]$deaths <-
+      jn_df[jn_df$date == d, ]$deaths + as.integer(joplin_df[joplin_df$date == d,]$deaths / 2)
   }
-  df
+  rbind(df, jn_df)
 }
 
 #State, Territory, or DC?
@@ -503,31 +541,41 @@ no_cases_text <- function(state_i, county_i) {
 
 #Outputs a footnote for specific county exceptions.
 county_exceptions <- function(state_i, county_i) {
+  
   #Wait for county input to load.
   if (is.null(county_i)) {
-  } else {
+  }
+  else {
+    #Bristol Bay Borough and Lake and Peninsula Borough, AK.
+    if (state_i == "Alaska" & county_i %in% c("Bristol Bay Borough", "Lake and Peninsula Borough")) {
+      alaska_exception1
+    }
+    #Yakutat City and Borough and Hoonah-Angoon Census Area, AK.
+    else if (state_i == "Alaska" & county_i %in% c("Yakutat City and Borough", "Hoonah-Angoon Census Area")) {
+      alaska_exception2
+    }
     #Alameda County, CA.
-    if (state_i == "California" & county_i == "Alameda County") {
+    else if (state_i == "California" & county_i == "Alameda County") {
       california_exception
-      
-      #Cook and Dupage Counties, IL.
-    } else if (state_i == "Illinois" & county_i %in% c("Cook County", "DuPage County")) {
+    }
+    #Cook and Dupage Counties, IL.
+    else if (state_i == "Illinois" & county_i %in% c("Cook County", "DuPage County")) {
       illinois_exception
-      
-      #Douglas County, NE.
-    } else if (state_i == "Nebraska" & county_i == "Douglas County") {
+    }
+    #Douglas County, NE.
+    else if (state_i == "Nebraska" & county_i == "Douglas County") {
       nebraska_exception
-      
-      #Kansas City, MO.
-    } else if (state_i == "Missouri" & county_i %in% kc_counties) {
+    }
+    #Kansas City, MO.
+    else if (state_i == "Missouri" & county_i %in% kc_counties) {
       missouri_exception1
-      
-      #Joplin, MO.
-    } else if (state_i == "Missouri" & county_i %in% joplin_counties) {
+    }
+    #Joplin, MO.
+    else if (state_i == "Missouri" & county_i %in% joplin_counties) {
       missouri_exception2
-      
-      #New York City, NY.
-    } else if (state_i == "New York" & county_i %in% c(nyc_counties, "New York City")) {
+    }
+    #New York City, NY.
+    else if (state_i == "New York" & county_i %in% c(nyc_counties, "New York City")) {
       nyc_exception
     } 
   } 
@@ -536,24 +584,28 @@ county_exceptions <- function(state_i, county_i) {
 
 
 state_exceptions <- function(state_i) {
+  #Various, AK
+  if (state_i == "Alaska") {
+  paste(alaska_exception1, alaska_exception2)
+  }
   #Alameda County, CA.
-  if (state_i == "California") {
+  else if (state_i == "California") {
     california_exception
-    
-    #Cook and Dupage Counties, IL.
-  } else if (state_i == "Illinois") {
+  }
+  #Cook and Dupage Counties, IL.
+  else if (state_i == "Illinois") {
     illinois_exception
-    
-    #Douglas County, NE.
-  } else if (state_i == "Nebraska") {
+  }  
+  #Douglas County, NE.
+  else if (state_i == "Nebraska") {
     nebraska_exception
-    
-    #Kansas City, MO.
-  } else if (state_i == "Missouri") {
+  }
+  #Kansas City, MO.
+  else if (state_i == "Missouri") {
     paste(missouri_exception1, missouri_exception2)
-    
-    #New York City, NY.
-  } else if (state_i == "New York") {
+  }  
+  #New York City, NY.
+  else if (state_i == "New York") {
     nyc_exception
   } 
 } 
@@ -587,6 +639,9 @@ reg_dates <- as.Date(c("2020-03-31",
                        "2020-10-31",
                        "2020-11-30",
                        "2020-12-31",
+                       "2021-01-31",
+                       "2021-02-28",
+                       "2021-03-31",
                        as.character(Sys.Date() - 2)))
 regression_list <- c("None" = 0,
                      "Connect Points" = 1,
@@ -600,7 +655,10 @@ regression_list <- c("None" = 0,
                      "October 31st Regression" = 9,
                      "November 30th Regression" = 10,
                      "December 31st Regression" = 11,
-                     "Current Regression" = 12)
+                     "January 31st Regression" = 12,
+                     "February 28th Regression" = 13,
+                     "March 31st Regression" = 14,
+                     "Current Regression" = 15)
 
 #Kansas City Counties
 kc_counties <- c("Cass County", "Clay County", "Jackson County", "Platte County")
@@ -618,21 +676,22 @@ y_labels = c("Confirmed/Probable Cases",
              "Mortality Rate (Deaths per 100,000)",
              "Cases Resulting in Deaths")
 
-
+alaska_exception1 <- "Data for Bristol Bay Borough and Lake and Peninsula Borough were combined and have been divided proportionally by population."
+alaska_exception2 <- "Data for Yakutat City and Borough and Hoonah-Angoon Census Area were combined and have been divided proportionally by population."
 california_exception <- "Alameda County also includes data from the Grand Princess cruise ship."
-illinois_exception <- "All data for Chicago are included in Cook County.  None are included in DuPage County."
 guam_exception <- "Guam also includes data from the USS Theodore Roosevelt."
-nebraska_exception <- "Douglas County also includes data from the Diamond Princess cruise ship."
+illinois_exception <- "All data for Chicago are included in Cook County.  None are included in DuPage County."
 missouri_exception1 <- "Data for Kansas City was separate, and has been divided evenly and added to Cass, Clay, Jackson, and Platte Counties. "
 missouri_exception2 <- "Since June 25th 2020, data for Joplin was separate, and has been divided evenly and added to Jasper and Newton Counties."
+nebraska_exception <- "Douglas County also includes data from the Diamond Princess cruise ship."
 nyc_exception <- "Data for Bronx, Kings, Queens, New York, and Richmond Counties are contained in New York City."
 
 ##############DATASETS##############
 
 #Population - contains all 50 States, DC, and 5 Territories 
-states_population <- read.csv("http://www2.census.gov/programs-surveys/popest/datasets/2010-2019/national/totals/nst-est2019-alldata.csv")[c(6:57), c(5, 17)]
+states_population <- fread("http://www2.census.gov/programs-surveys/popest/datasets/2010-2019/national/totals/nst-est2019-alldata.csv")[c(6:57), c(5, 17)]
 colnames(states_population) <- c("state_name", "population")
-states_population <- states_population %>%
+states_population <- data.frame(states_population) %>%
   mutate(state_name = as.character(state_name))
 temp <- data.frame("state_name" = c("American Samoa", "Guam", "Northern Mariana Islands", "Virgin Islands"),
                    "population" = c(55191, 168775, 57559, 104425))
@@ -643,8 +702,8 @@ rownames(states_population) <- NULL
 
 
 #Population of Counties
-counties_population <- read.csv("https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/counties/totals/co-est2019-alldata.csv")
-counties_population <- counties_population %>%
+counties_population <- fread("https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/counties/totals/co-est2019-alldata.csv")
+counties_population <- data.frame(counties_population) %>%
   select(7, 6, 19) %>%
   `colnames<-`(c("county_name", "state_name", "population")) %>%
   mutate(county_name = as.character(county_name),
@@ -676,8 +735,8 @@ counties_population <- rbind(counties_population[!(counties_population$state_nam
 #States - contains all 50 States, DC, and 5 Territories.  American Samoa still has no confirmed cases.
 #Columns:
 #date, state, state_fips, type (Cases or Deaths), people
-states_corona <- read.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv")
-states_corona <- states_corona %>%
+states_corona <- fread("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv")
+states_corona <- data.frame(states_corona) %>%
   mutate(date = as.Date(date),
          state = as.character(state)) %>%
   `colnames<-`(c("date", "state_name", "state_fips", "Cases", "Deaths"))
@@ -696,17 +755,15 @@ territories_corona <- states_corona %>%
 #Columns:
 #date, county, state, county_fips, type (Cases or Deaths), people
 #county is unknown and county_fips is NA for 5 Territories.
-counties_corona <- read.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv")
-counties_corona<- counties_corona %>%
+counties_corona <- fread("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv")
+counties_corona<- data.frame(counties_corona) %>%
   mutate(date = as.Date(date),
          county = as.character(county),
          state = as.character(state))
 
-counties_corona <- kc_edit(counties_corona)
-counties_corona <- joplin_edit(counties_corona)
+counties_corona <- joplin_edit(kc_edit(alaska_edit(counties_corona)))
 
 #Rename.
-counties_corona[counties_corona$county == "Anchorage",]$county <- "Anchorage Municipality"
 counties_corona[counties_corona$fips == 35013 & !(is.na(counties_corona$fips)),]$county <- "Dona Ana"
 
 #Independent Cities - Baltimore, St. Louis, and 38 Virginia cities.
@@ -724,9 +781,9 @@ independent_cities <- c(independent_cities, "Carson City", "New York City")
 #Alaska, DC, and Louisiana first.
 counties_corona[!(counties_corona$county %in% c(independent_cities, "Unknown")) & !(counties_corona$state %in% c("Alaska", "District of Columbia", "Louisiana")),]$county <-
   paste(counties_corona[!(counties_corona$county %in% c(independent_cities, "Unknown")) & !(counties_corona$state %in% c("Alaska", "District of Columbia", "Louisiana")),]$county, "County")
+
 #Append 'Parish' to the end of each Louisiana Parish. 
 counties_corona[counties_corona$state  == "Louisiana",]$county <- paste(counties_corona[counties_corona$state  == "Louisiana",]$county, "Parish")
-
 counties_corona <- counties_corona %>%
   `colnames<-`(c("date", "county_name", "state_name", "county_fips", "Cases", "Deaths"))
 
@@ -755,12 +812,15 @@ us_data_table <- us_data_table[,c(4,5,1,2,3,6,7,8)]
 #Data with 'Unknown' in county column.
 counties_corona_unknown <- counties_corona %>%
   filter(county_name == "Unknown")
+
 #Others are states.
 counties_corona_unknown <- counties_corona_unknown %>%
   filter(!state_name %in% territory.name)
+
 #Complete county and state data.
 counties_corona <- counties_corona %>%
   filter(county_name != "Unknown")
+
 #New York City.
 nyc_corona <- counties_corona %>%
   filter(county_name == "New York City")
@@ -810,8 +870,8 @@ territories_ll <- territories_ll %>%
 
 
 #Center Lat and Long of Counties.
-counties_ll <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")[,c(5,6,7,9,10)]
-counties_ll <- counties_ll %>%
+counties_ll <- fread("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")[,c(5,6,7,9,10)]
+counties_ll <- data.frame(counties_ll) %>%
   `colnames<-`(c("county_fips", "county_name", "state_name", "lat", "long"))
 counties_ll <- counties_ll %>%
   mutate(county_fips = as.integer(county_fips),
@@ -1073,12 +1133,13 @@ server <- function(input, output, session) {
         if (input$data_choice %in% c(1, 3, 5)) {
           updateSliderInput(session, "date_in",
                             value = c(first_case, as.Date(Sys.Date() - 2)))
-        } else {
+        }
+        else {
           updateSliderInput(session, "date_in",
                             value = c(first_death, as.Date(Sys.Date() - 2)))
         }
-        
-      } else if(input$mytabs %in% c(2, 3, 4, 6, 7)) {
+      }
+      else if(input$mytabs %in% c(2, 3, 4, 6, 7)) {
         updateSliderInput(session, "date_in",
                           value = c(first_case, as.Date(Sys.Date() - 2)))
       }
@@ -1088,9 +1149,11 @@ server <- function(input, output, session) {
   
   #Outputs two, two column data frames containing the Date and all Cases or Date and all Deaths for a state or county.
   confirmed_values <- reactive({
+    
     if (input$mytabs %in% 1:4) {
       current_geo <- get_state(states_corona, input$state_i)
-    } else {
+    }
+    else {
       current_geo <- get_county(get_state(counties_corona, input$state_i), input$county_i)
     }
     list(current_geo %>% filter(type == "Cases") %>% select(date, people),
@@ -1101,17 +1164,23 @@ server <- function(input, output, session) {
   
   #Helper function for Server.  Defines all colors.
   get_colors <- reactive ({
+    
     if (input$col_sch == "Blues") {
       c("#CFE8F3", "#A2D4EC", "#73BFE2", "#46ABDB", "#1696D2", "#12719E", "#0A4C6A", "#062635")
-    } else if (input$col_sch == "Greens") {
+    }
+    else if (input$col_sch == "Greens") {
       c("#E5F5E0", "#C7E9C0", "#A1D99B", "#74C476", "#41AB5D", "#238B45", "#006D2C", "#00441B")
-    } else if (input$col_sch == "Heat") {
+    }
+    else if (input$col_sch == "Heat") {
       c("#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026")
-    } else if (input$col_sch == "Purples") {
+    }
+    else if (input$col_sch == "Purples") {
       c("#EFEDF5", "#DADAEB", "#BCBDDC", "#9E9AC8", "#807DBA", "#6A51A3", "#54278F", "#3F007D")
-    } else if (input$col_sch == "Reds") {
+    }
+    else if (input$col_sch == "Reds") {
       c("#FEE0D2", "#FCBBA1", "#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#A50F15", "#67000D")
-    } else {
+    }
+    else {
       c("#FDE725FF", "#9FDA3AFF", "#4AC16DFF", "#1FA187FF", "#277F8EFF", "#365C8DFF", "#46337EFF", "#440154FF")
     }
   })
@@ -1132,95 +1201,111 @@ server <- function(input, output, session) {
           filter(people > 0)
         temp_date <- temp_df$date[1]
         if (is.na(temp_date)) {
-          updateSelectInput(session, "con_pts",
-                            choices = regression_list[c(1, 2)])
-        } else {
+          updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2)])
+        }
+        else {
           #Not enough people for a regression.
           if (tail(confirmed_values()[[as.integer(input$data_choice)]]$people, 1) < 10) {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2)])
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2)])
+          }
           #First Case or Death is after Sys.Date() - 31.
-          } else if (temp_date > Sys.Date() - 31) {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2)])
+          else if (temp_date > Sys.Date() - 31) {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2)])
+          }
+          #First Case or Death is after February 28th.  
+          else if (temp_date > "2021-02-28") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 16)]) 
+          }
+          #First Case or Death is after January 31st.  
+          else if (temp_date > "2021-01-31") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 15:16)])   
+          }
+          #First Case or Death is after December 31st.  
+          else if (temp_date > "2020-12-31") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 14:16)])   
+          }
           #First Case or Death is after November 30th.  
-          } else if (temp_date > "2020-11-30") {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2, 13)]) 
-            #First Case or Death is after October 31st.  
-          } else if (temp_date > "2020-10-31") {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2, 12:13)])   
+          else if (temp_date > "2020-11-30") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 13:16)]) 
+          }
+          #First Case or Death is after October 31st.  
+          else if (temp_date > "2020-10-31") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 12:16)])   
+          }
           #First Case or Death is after September 30th.  
-          } else if (temp_date > "2020-09-30") {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2, 11:13)]) 
+          else if (temp_date > "2020-09-30") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 11:16)]) 
+          }
           #First Case or Death is after August 31st.  
-          } else if (temp_date > "2020-08-31") {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2, 10:13)])  
+          else if (temp_date > "2020-08-31") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 10:16)])  
+          }
           #First Case or Death is after July 31st.  
-          } else if (temp_date > "2020-07-31") {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2, 9:13)])
+          else if (temp_date > "2020-07-31") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 9:16)])
+          }
           #First Case or Death is after June 30th.  
-          } else if (temp_date > "2020-06-30") {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2, 8:13)])
+          else if (temp_date > "2020-06-30") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 8:16)])
+          }
           #First Case or Death is after May 31st.
-          } else if (temp_date > "2020-05-31") {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2, 7:13)])
+          else if (temp_date > "2020-05-31") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 7:16)])
+          }
           #First Case or Death is after April 30th.
-          } else if (temp_date > "2020-04-30") {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2, 6:13)])
+          else if (temp_date > "2020-04-30") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 6:16)])
+          }
           #First Case or Death is after March 31st.
-          } else if (temp_date > "2020-03-31") {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2, 5:13)])
+          else if (temp_date > "2020-03-31") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 5:16)])
+          }
           #First Case or Death is after February 29th.   
-          } else if (temp_date > "2020-02-29") {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[c(1, 2, 4:13)])
+          else if (temp_date > "2020-02-29") {
+            updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2, 4:16)])
+          }
           #First Case or Death is before February 29th      
-          } else {
-            updateSelectInput(session, "con_pts",
-                              choices = regression_list[1:13]) 
+          else {
+            updateSelectInput(session, "con_pts", choices = regression_list[1:16]) 
           } 
         }
-      } else {
-        updateSelectInput(session, "con_pts",
-                          choices = regression_list[c(1, 2)])
+      }
+      else {
+        updateSelectInput(session, "con_pts", choices = regression_list[c(1, 2)])
       }
     })
   
   
+
   
   #Dataframe for State and County Graphs.
-graph_df <- reactive({
+  graph_df <- reactive({
+    
     #Confirmed Cases, Prevalence Rate, and Deaths/Cases are dated by first Case.
     if (input$data_choice %in% c(1, 3, 5)) {
-    graph_df <- confirmed_values()[[1]]
-    #Confirmed Deaths and Mortality Rate are dated by first Death.
-    } else {
-    graph_df <- confirmed_values()[[2]]
+      graph_df <- confirmed_values()[[1]]
     }
-    #All points are relevant for None and Connect Points.   
-    if (input$con_pts %in% c(0, 1)) {
-    graph_df
-    #All points are relevant up to selected Regression Date.   
-    } else {
-    graph_df %>%
-        filter(date <= (reg_dates[as.integer(input$con_pts) - 1]))
+    #Confirmed Deaths and Mortality Rate are dated by first Death.
+    else {
+      graph_df <- confirmed_values()[[2]]
     }
     
-  }) 
+    #All points are relevant for None and Connect Points.   
+    if (input$con_pts %in% c(0, 1)) {
+      graph_df
+    }
+    #All points are relevant up to selected Regression Date.   
+    else {
+      graph_df %>%
+        filter(date <= (reg_dates[as.integer(input$con_pts) - 1]))
+    }
+  })
   
   
   
   #Regression Info for State Graph and County Graph.
   regression_output <- reactive({
+    
     if (input$con_pts > 1  & input$data_choice %in% c(1, 2)) {
       cd_index <- as.integer(input$data_choice)
       p(paste("Using a logistic regression model from",
@@ -1249,17 +1334,21 @@ graph_df <- reactive({
   
   #Helper function for County Graph, Comparisons, and Growth Info.
   null_county <- reactive({
+    
     #Wait for county input to load.
     if (is.null(input$county_i)) {
-    } else {
+    }
+    else {
       #County could simply not exist in data.
       if ((input$county_i %in% unique((get_state(counties_corona, input$state_i))$county_name)) == FALSE) {
         TRUE
         #County could exist in data, but have only 0s.
-      } else if (sum((get_county(get_state(counties_corona, input$state_i), input$county_i))$people) == 0) {
+      }
+      else if (sum((get_county(get_state(counties_corona, input$state_i), input$county_i))$people) == 0) {
         TRUE
-        #County has at least one case.  
-      } else {
+      }
+      #County has at least one case.  
+      else {
         FALSE
       }
     }
@@ -1269,10 +1358,12 @@ graph_df <- reactive({
    
   ##############STATE GRAPH##############
   output$tab1_title <- renderUI({
+    
     paste(division(input$state_i), "Graph")
   })
 
   emer_info <- reactive({
+    
     states_Emer <- emergency %>%
       filter(type == 1) %>%
       select(1, 5, 6, 8)
@@ -1281,6 +1372,7 @@ graph_df <- reactive({
   })
   
   stay_info <- reactive({
+    
     states_Stay <- emergency %>%
       filter(level == "state",
              type %in% c(2, 2.5)) %>%
@@ -1292,7 +1384,6 @@ graph_df <- reactive({
   output$state_plot <- renderPlot({
     
     #Graph
-
     current_state <- get_state(states_data_table,input$state_i) %>%
       filter(date >= input$date_in[1], date <= input$date_in[2])
     
@@ -1346,6 +1437,7 @@ graph_df <- reactive({
   
   #Create Footnote with State, Date, Name, and Link.
   output$tab1_stay <- renderUI({
+    
     #Never issued.
     if (is.na(stay_info()$date)) {
       p(paste("As of",
@@ -1353,8 +1445,9 @@ graph_df <- reactive({
             input$state_i,
             "has yet to implement a statewide stay at home order."),
         style = paste("color:", get_colors()[5], sep = ""))
+    }
     #Advisories.  
-    } else if (stay_info()$type == 2.5) {
+    else if (stay_info()$type == 2.5) {
       p(create_html(paste("---", input$state_i, "issued an advisory"),
                    stay_info()$type_name,
                    stay_info()$link,
@@ -1362,15 +1455,15 @@ graph_df <- reactive({
                          paste(format(stay_info()$date, "%B %d"),
                                ".", sep = ""))),
         style = paste("color:", get_colors()[5], sep = ""))
-      
+    }  
     #Orders.  
-    } else {
+    else {
       p(create_html(paste("---", input$state_i, "implemented"),
-                         stay_info()$type_name,
-                         stay_info()$link,
-                         paste("on",
-                               paste(format(stay_info()$date, "%B %d"),
-                                     ".", sep = ""))),
+                    stay_info()$type_name,
+                    stay_info()$link,
+                    paste("on",
+                          paste(format(stay_info()$date, "%B %d"),
+                                ".", sep = ""))),
         style = paste("color:", get_colors()[5], sep = ""))
     }
   })
@@ -1382,9 +1475,11 @@ graph_df <- reactive({
   
   # No confirmed cases or the three part - US data, State data, and Mini Table.
   temp_state_data <- reactive({
+    
     if (input$table_choice != 6 & input$state_i == "American Samoa") {
       c("American Samoa currently has no confirmed cases", "", NULL)
-    } else {
+    }
+    else {
       comparisons_data(us_data_table, states_data_table, "United States", input$state_i, "s", input$date_in[2], as.integer(input$table_choice))
     }
   })
@@ -1402,10 +1497,15 @@ graph_df <- reactive({
   })
 
   output$tab2_us_data <- renderText(temp_state_data()[[1]])
+  
   output$tab2_state_data <- renderText(temp_state_data()[[2]])
+  
   output$tab2_mini_table <- renderTable({temp_state_data()[3]})
+ 
   output$tab2_us_pop <- renderText(paste("US Population (2020 estimate) : ", prettyNum(331883986, big.mark = ",")))
+  
   output$tab2_state_pop <- renderText(state_pop_1())
+  
   output$tab2_full_table <- renderDT(datatable(temp_state_data(),
                                                rownames = FALSE,
                                                options = list(autoWidth = TRUE)) %>%
@@ -1416,12 +1516,14 @@ graph_df <- reactive({
   
   ##############STATE GROWTH INFO##############
   output$tab3_title <- renderUI({
+    
     paste(division(input$state_i), "Growth Info")
   })
   
   output$tab3_date <- renderText(paste("As of", format(input$date_in[2], "%B %d")))
   
   state_growth_dF <- reactive({
+    
     get_state(states_corona, input$state_i) %>%
                filter(date <= input$date_in[2])
   })
@@ -1432,16 +1534,17 @@ graph_df <- reactive({
                                              format((confirmed_values()[[1]] %>% filter(people > 0))$date[1], "%B %d")))
   
   output$tab3_case_table <- renderTable({
+    
     build_growth_df(state_growth_dF(), "Cases")
   })
   
-  
-  output$tab3_first_death <- renderText(paste("First death in",
+    output$tab3_first_death <- renderText(paste("First death in",
                                               input$state_i,
                                               "reported on :",
                                               format((confirmed_values()[[2]] %>% filter(people > 0))$date[1], "%B %d")))    
   
   output$tab3_death_table <- renderTable({
+    
     build_growth_df(state_growth_dF(), "Deaths")
   })
   
@@ -1449,6 +1552,7 @@ graph_df <- reactive({
     
   ##############STATE MAP##############
   output$tab4_title <- renderUI({
+    
     paste(division(input$state_i), "Map")
   })
   
@@ -1470,7 +1574,8 @@ graph_df <- reactive({
       caption <- paste(paste("Unknown County Confirmed/Probable", input$map_data, ":", prettyNum(unknown_value[1, 1], big.mark = ",")),
                        paste("Total Confirmed/Probable", input$map_data, ":", temp_people),
                        sep = "\n\n")
-    } else {
+    }
+    else {
       caption <- paste("Total Confirmed/Probable", input$map_data, ":", temp_people)
     }
     
@@ -1487,8 +1592,9 @@ graph_df <- reactive({
                                                          input$date_in[2]),
                                                  blank_mapping,
                                                  by = "county_fips")
-        #Territory?
-      } else {
+      }
+      #Territory?
+      else {
         
         blank_mapping <- get_state(territories_mapping, input$state_i)
         current_state_mapping_date <- right_join(get_date(get_type(get_state(territories_corona,
@@ -1498,29 +1604,24 @@ graph_df <- reactive({
                                                  blank_mapping,
                                                  by = "state_name")
       }
+      
       #Distribute NYC number evenly between 5 counties.
       if  (input$state_i == "New York") {
+        
         nyc_cd <- get_type(get_date(nyc_corona, input$date_in[2]), input$map_data)$people
         current_state_mapping_date[current_state_mapping_date$county_name.y %in% nyc_counties,]$people <- nyc_cd / 5
       }
+      
       #Eliminate counties less than threshold.
-
- 
       current_state_mapping_date <- show_zeroes(current_state_mapping_date, input$show_hide, input$threshold, "map")
 
-      g2 <- ggplot() + labs(title = paste(input$state_i, "as of", format(input$date_in[2], "%B %d")),
-                            caption = caption)
+      g2 <- ggplot() + labs(title = paste(input$state_i, "as of", format(input$date_in[2], "%B %d")), caption = caption)
       #Fill all counties with grey.
-      g2 <- g2 + geom_polygon(blank_mapping,
-                              mapping = aes(x = long, y = lat, group = group),
-                              fill = "lightgrey")
+      g2 <- g2 + geom_polygon(blank_mapping, mapping = aes(x = long, y = lat, group = group), fill = "lightgrey")
       #Fill counties with people values.
-      g2 <- g2 + geom_polygon(current_state_mapping_date,
-                              mapping = aes(x = long, y = lat, group = group, fill = people))
+      g2 <- g2 + geom_polygon(current_state_mapping_date, mapping = aes(x = long, y = lat, group = group, fill = people))
       #Fill Gradient.
-      g2 <- g2 + scale_fill_gradientn(name = paste("Confirmed/Probable", input$map_data),
-                                      colors = get_colors(),
-                                      labels = comma)
+      g2 <- g2 + scale_fill_gradientn(name = paste("Confirmed/Probable", input$map_data), colors = get_colors(), labels = comma)
       #Outline all counties, after filling.
       g2 <- g2 + geom_polygon(blank_mapping,
                               mapping = aes(x = long, y = lat, group = group),
@@ -1535,12 +1636,11 @@ graph_df <- reactive({
                        legend.key.height = unit(1, "cm"),
                        legend.key.width = unit(1.5, "cm"),
                        legend.text = element_text(size = 12))
+    }
+    
+    #Bubble Plot
+    else {
       
-      
-
-      
-      #Bubble Plot
-    } else {
       #State/DC
       if (input$state_i %in% c(state.name, "District of Columbia")) {
         
@@ -1556,8 +1656,9 @@ graph_df <- reactive({
                                                          input$date_in[2]),
                                                  get_state(counties_ll, input$state_i),
                                                  by = "county_fips")                      
-        #Territory?
-      } else {
+      }
+      #Territory?
+      else {
         
         blank_mapping <- get_state(territories_mapping, input$state_i)
         current_state_mapping_date <- left_join(get_date(get_type(get_state(territories_corona,
@@ -1578,9 +1679,7 @@ graph_df <- reactive({
                       caption = caption)
       
       #Fill all counties with grey and outline, before dotting.
-      g2 <- g2 + geom_polygon(blank_mapping,
-                              mapping = aes(x = long, y = lat, group = group),
-                              fill = "lightgrey", color = "white", size = 0.25)
+      g2 <- g2 + geom_polygon(blank_mapping, mapping = aes(x = long, y = lat, group = group),  fill = "lightgrey", color = "white", size = 0.25)
 
       g2 <- g2 + geom_point(color = get_colors()[6], alpha = 0.4) + scale_size_area(breaks = get_scale(current_state_mapping_date), labels = comma, max_size = 70)
 
@@ -1597,16 +1696,27 @@ graph_df <- reactive({
   })
   
     output$tab4_exceptions <- renderText({
+      
       if (input$map_display == "Chloropleth") {
-        if (input$state_i == "Missouri") {
-          paste(missouri_exception1, missouri_exception2)
-        } else if (input$state_i == "New York") {
-          "Data for New York City has been divided evenly amongst Bronx, Kings, New York, Queens, and Richmond Counties."
+      
+        if (input$state_i == "Alaska") {
+          paste(alaska_exception1, alaska_exception2)
         }
-      } else {
-        if (input$state_i == "Missouri") {
+        else if (input$state_i == "Missouri") {
           paste(missouri_exception1, missouri_exception2)
-        } else if (input$state_i == "New York") {
+        }
+        else if (input$state_i == "New York") {
+          "Data for New York City has been divided evenly amongst Bronx, Kings, New York, Queens, and Richmond Counties."
+        } 
+      }
+      else {
+        if (input$state_i == "Alaska") {
+          paste(alaska_exception1, alaska_exception2)
+        }
+        else if (input$state_i == "Missouri") {
+          paste(missouri_exception1, missouri_exception2)
+        }
+        else if (input$state_i == "New York") {
           nyc_exception          
         }
       }
@@ -1639,11 +1749,13 @@ graph_df <- reactive({
     #Initially, the county name is not read.  Wait.  Then see if there are cases/deaths in the county.
     #If there are not, then text saying that is output, else, a graph is output.
     output$tab5_plot_or_not <- renderUI({
+      
       #Wait for county input to load.  No county data or data = 0.
       if (null_county()) {
         textOutput("tab5_null_text")
-        #There is at least one case.  
-      } else {
+      }
+      #There is at least one case.  
+      else {
         observeEvent(input$county_i,
                      {updateSliderInput(session, "date_in",
                                         value = c((get_county(counties_data_table(),input$county_i) %>%
@@ -1654,13 +1766,13 @@ graph_df <- reactive({
                          plotOutput("tab5_plot", height = 600),
                          conditionalPanel(condition = "input.data_choice == 1 || input.data_choice == 2",
                                           strong(span(uiOutput("tab5_regression"), style = "font-size: 12px"))))
-      } 
+      }
     })
     
     #If no cases in county, say it so!
     output$tab5_null_text <- renderText(no_cases_text(input$state_i, input$county_i))
    
-   #Graph
+    #Graph
     output$tab5_plot <- renderPlot({
 
       current_county <- get_county(counties_data_table(), input$county_i) %>%
@@ -1679,7 +1791,7 @@ graph_df <- reactive({
                        input$data_choice,
                        g3,
                        get_colors(),
-                     graph_df(),
+                       graph_df(),
                        input$date_in[1])
       
       #scale_x_date
@@ -1704,6 +1816,7 @@ graph_df <- reactive({
     
     ##############COUNTY COMPARISONS##############
     output$tab6_title <- renderUI({
+      
       paste(subdivision(input$state_i), "Comparisons")
     })
     
@@ -1723,11 +1836,13 @@ graph_df <- reactive({
     
     # No confirmed cases or the three part - US data, State data, and Mini Table.
     output$tab6_info_or_not <- renderUI({
+      
       #Wait for county input to load.
       if (null_county()) {
         textOutput("tab6_null_text")
         
-      } else {
+      }
+      else {
         conditionalPanel(condition = "true",
                          conditionalPanel(condition = "input.table_choice != 6",
                                           textOutput("tab6_state_data"),
@@ -1743,6 +1858,7 @@ graph_df <- reactive({
     output$tab6_null_text <- renderText(no_cases_text(input$state_i, input$county_i))
     
     county_comparisons <- reactive({
+      
       if ((input$table_choice == 6) || (null_county() == FALSE)) {
         state_data_table <- get_state(states_data_table, input$state_i) %>%
           rename(county_name = state_name)
@@ -1758,29 +1874,34 @@ graph_df <- reactive({
     })
     
     output$tab6_state_data <- renderText(county_comparisons()[[1]])
+
     output$tab6_county_data <- renderText(county_comparisons()[[2]])
+
     output$tab6_mini_table <- renderTable({
-      #if (!(is.null(comparisons_data()[3]))) {
       county_comparisons()[3]
-      #}
     })
     
     #For state_pop and county_pop.
     state_pop_2  <- reactive({
+      
       paste(input$state_i, " Population (2019 estimate) : ",
             prettyNum((get_county(get_state(counties_population, input$state_i), input$state_i))$population,
                       big.mark = ","), sep = "")
     })
+    
     tempCountyPop <- reactive({
-      paste(input$county_i, " Population (2019 estimate) : ",
+    
+        paste(input$county_i, " Population (2019 estimate) : ",
             prettyNum((get_county(get_state(counties_population, input$state_i), input$county_i))$population,
                       big.mark = ","), sep = "")
     })
     
     output$tab6_state_pop <- renderText(state_pop_2 ())
+    
     output$tab6_county_pop <- renderText(tempCountyPop())
     
     output$tab6_full_table <- renderDT({
+      
       if (input$table_choice == 6) {
         datatable(county_comparisons(),
                   rownames = FALSE,
@@ -1791,10 +1912,12 @@ graph_df <- reactive({
     })
     
     output$tab6_exceptions <- renderText({
+      
       if (input$table_choice == 6) {
         state_exceptions(input$state_i)
         
-      } else {
+      }
+      else {
         county_exceptions(input$state_i, input$county_i)
       }
     })
@@ -1803,16 +1926,19 @@ graph_df <- reactive({
     
     ##############COUNTY GROWTH INFO##############
     output$tab7_title <- renderUI({
+      
       paste(subdivision(input$state_i), "Growth Info")
     })
     
     observeEvent(input$state_i, {
+      
       if (!(input$state_i %in% state.name)) {
         hideTab(inputId = "mytabs", target = '7')
       }
     })
     
     observeEvent(input$state_i, {
+      
       if (input$state_i %in% state.name) {
         showTab(inputId = "mytabs", target = '7')  
       }
@@ -1821,11 +1947,13 @@ graph_df <- reactive({
     output$tab7_date <- renderText(paste("As of", format(input$date_in[2], "%B %d")))
     
     output$tab7_info_or_not <- renderUI({
+      
       #Wait for county input to load.
       if (null_county()) {
         textOutput("tab7_null_text")
         
-      } else {
+      }
+      else {
         conditionalPanel(condition = "true",
                          textOutput("tab7_first_case"),
                          br(),
@@ -1834,17 +1962,18 @@ graph_df <- reactive({
                          br(),
                          tableOutput("tab7_death_table"))
       }
-      
     })
     
     output$tab7_null_text <- renderText(no_cases_text(input$state_i, input$county_i))
     
     county_growth_df <- reactive({
+      
       get_county(get_state(counties_corona, input$state_i), input$county_i) %>%
         filter(date <= input$date_in[2])
-      })
+    })
     
     output$tab7_first_case <- renderText({
+      
       paste("First case in",
             input$county_i,
             "reported on :",
@@ -1854,6 +1983,7 @@ graph_df <- reactive({
     output$tab7_case_table <- renderTable(build_growth_df(county_growth_df(), "Cases"))
     
     output$tab7_first_death <- renderText({
+      
       paste("First death in",
             input$county_i,
             "reported on :",
@@ -1870,27 +2000,31 @@ graph_df <- reactive({
     output$tab10_title <- renderText("Sources")
     
     output$tab10_links1 <- renderUI({
+      
       create_html("USA, County, State, and Territory Data : ",
                  "Data from The New York Times, based on reports from state and local health agencies.",
                  "https://github.com/nytimes/covid-19-data",
                  ".")
-      })
+    })
   
     output$tab10_links2 <- renderUI({
+      
       create_html("State, DC, and Puerto Rico Population : ",
                  "State Population Totals: 2010-2019",
                  "http://www2.census.gov/programs-surveys/popest/datasets/2010-2019/national/totals/nst-est2019-alldata.csv",
                  ".")
-      })
+    })
     
     output$tab10_links3 <- renderUI({
+      
       create_html("USA, American Samoa, Guam, Northern Mariana Islands, and Virgin Islands Population : ",
                  "Worldometer - real time world statistics",
                  "https://www.worldometers.info/world-population/population-by-country/",
                  ".")
-      })
+    })
     
     output$tab10_links4 <- renderUI({
+      
       create_html("US Counties Population : ",
                  "County Population Totals: 2010-2019",
                  "https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/counties/totals/co-est2019-alldata.csv",
@@ -1898,16 +2032,19 @@ graph_df <- reactive({
     })
         
     output$tab10_links5 <- renderUI({
+      
       create_html("State Testing Data : ",
                  "The COVID Tracking Project",
                  "https://covidtracking.com/api/",
                  ".")
-      })
+    })
     
     output$tab11_links_title1 <- renderText("Related Links")
+    
     output$tab11_links_title2 <- renderText("Some other COVID-19 related pages that I found interesting, but did not use directly on my page.")
     
     output$tab11_link1 <- renderUI({
+      
       create_html("Probably the best page I have seen for worlwide COVID-19 information by country : ",
                  "COVID-19 Dashboard by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University (JHU)",
                  "https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6",
@@ -1915,13 +2052,15 @@ graph_df <- reactive({
     })
   
     output$tab11_link2 <- renderUI({
+      
       create_html("Identifying populations at risk : ",
                  "COVID Community Vulnerability Map",
                  "https://covid19.jvion.com/",
                  ".")
-      })
+    })
     
     output$tab11_link3 <- renderUI({
+      
       create_html("US Coronavirus Data : ",
                  "Novel Coronavirus (COVID-19) Cases, provided by JHU CSSE",
                  "https://github.com/CSSEGISandData/COVID-19",
@@ -1929,6 +2068,7 @@ graph_df <- reactive({
     })
     
     output$tab11_link4 <- renderUI({
+      
       create_html("An exploration of hospital bed availability. :",
                  "Understanding Hospital Bed Capacities Nationwide amid COVID-19",
                  "https://www.urban.org/policy-centers/health-policy-center/projects/understanding-hospital-bed-capacities-nationwide-amid-covid-19",
@@ -1936,6 +2076,7 @@ graph_df <- reactive({
     })
     
     output$tab11_link5 <- renderUI({
+      
       create_html("A more interactive and professional COVID-19 Page (No maps tho. ;)) : ",
                  "COVID-19.direct",
                  "https://covid-19.direct/",
@@ -1943,6 +2084,7 @@ graph_df <- reactive({
     })
     
     output$tab11_link6 <- renderUI({
+      
       create_html("A buddy of mine is on a team that created this page. :",
                  "COVID-19 Health Workforce Recruiting Dashboard",
                  "https://nudge4.org/wp-content/uploads/2020/04/COVID19.html",
@@ -1950,6 +2092,7 @@ graph_df <- reactive({
     })
     
     output$tab11_link7 <- renderUI({
+      
       create_html("An international tracking of COVID-19.  A great resource. :",
                  "Genomic epidemiology of novel coronavirus - Global subsampling",
                  "https://nextstrain.org/ncov/global",
@@ -1957,6 +2100,7 @@ graph_df <- reactive({
     })
     
     output$tab11_link8 <- renderUI({
+      
       create_html("A website looking at Rt values as an indicator of spread rate. :",
                  "Rt Covid-19",
                  "https://rt.live/",
@@ -1964,6 +2108,7 @@ graph_df <- reactive({
     })
   
     output$tab12_source <- renderUI({
+      
       create_html("GitHub",
                   "Repository",
                   "https://github.com/HumanRickshaw/Coronavirus_Visualization",
@@ -1971,13 +2116,17 @@ graph_df <- reactive({
     })
     
     output$tab12_email1 <- renderText({
+      
       "Questions?  Comments?"
     })
   
     output$tab12_email2 <- renderText({
+      
       "Email : rohan.lewis@gmail.com"
     })
 }
+
+
 
 # Run the application 
 shinyApp(ui = ui, server = server)
